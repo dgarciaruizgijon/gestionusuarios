@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Clientes - Viajes Global Express</title>
+    <style>
+        body { font-family:'Segoe UI'; background:#f4f8fb; margin:0; color:#222; }
+        nav { background:#286aa3; padding:10px; text-align:center; }
+        nav a { color:white; margin:0 10px; text-decoration:none; font-weight:600; }
+        .container { max-width:900px; margin:30px auto; background:white; padding:2rem; border-radius:10px; box-shadow:0 2px 10px rgba(60,80,120,0.1);}
+        h1 { color:#286aa3; text-align:center; }
+        form { display:flex; gap:0.8rem; margin:1rem 0; }
+        input,button { padding:0.5rem; border-radius:6px; border:1px solid #b4c7e7; }
+        button { background:#286aa3; color:white; border:none; font-weight:600; }
+        button:hover { background:#4698d6; }
+        ul { list-style:none; padding:0; }
+        li { background:#f6fafd; margin:0.3rem 0; padding:0.5rem 0.9rem; border-radius:7px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a th:href="@{/}">Inicio</a>
+        <a th:href="@{/clientes}">Clientes</a>
+        <a th:href="@{/empleados}">Empleados</a>
+        <a th:href="@{/viajes}">Viajes</a>
+        <a th:href="@{/reservas}">Reservas</a>
+        <a th:href="@{/contacto}">Contacto</a>
+    </nav>
+
+    <div class="container">
+    <h1>Gestión de Empleados</h1>
+
+    <form th:action="@{/agregarEmpleado}" method="post">
+        <input type="text" name="nombre" placeholder="Nombre" required />
+        <input type="email" name="correo" placeholder="Correo" required />
+        <input type="text" name="direccion" placeholder="Dirección" required />
+        <input type="text" name="puesto" placeholder="Puesto" required />
+        <button type="submit">Agregar Empleado</button>
+    </form>
+
+    <h3>Listado de Empleados</h3>
+    <ul>
+        <li th:each="empleado : ${empleados}">
+            Nombre: <span th:text="${empleado.nombre}"></span> | 
+            Correo: <span th:text="${empleado.correo}"></span> | 
+            Puesto: <span th:text="${empleado.direccion}"></span> | 
+            DNI: <span th:text="${empleado.puesto}"></span>
+        </li>
+    </ul>
+
+
+    <div style="color:red;" th:if="${error}" th:text="${error}"></div>
+    <div style="color:green;" th:if="${mensaje}" th:text="${mensaje}"></div>
+</div>
+</body>
+</html>
+
+
