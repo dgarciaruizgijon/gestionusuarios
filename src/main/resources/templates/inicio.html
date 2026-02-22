@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{nav.inicio} + ' - Viajes Global Express'"></title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+    <nav>
+        <a th:href="@{/dashboard}" th:text="#{nav.inicio}"></a>
+        <a th:href="@{/clientes}" th:text="#{nav.clientes}"></a>
+        <a th:href="@{/empleados}" th:text="#{nav.empleados}"></a>
+        <a th:href="@{/viajes}" th:text="#{nav.viajes}"></a>
+        <a th:href="@{/reservas}" th:text="#{nav.reservas}"></a>
+        <a th:href="@{/contacto}" th:text="#{nav.contacto}"></a>
+    </nav>
+
+    <div class="container">
+        <div style="text-align: right; margin-bottom: 10px; font-size: 0.9rem;">
+            <strong th:text="#{idioma.seleccionar} + ':'"></strong>
+            <a th:href="@{/dashboard(lang='es')}" style="margin-left: 5px; font-weight: bold;">ES</a> | 
+            <a th:href="@{/dashboard(lang='en')}" style="margin-left: 5px; font-weight: bold;">EN</a>
+        </div>
+
+        <header style="text-align: center; margin-bottom: 3rem;">
+            <h1 th:text="${nombreAgencia}"></h1>
+            <p style="font-size: 1.2rem; color: #6b7280;" th:text="${mensaje}"></p>
+            
+            <div class="alert alert-success" style="display: inline-block; margin-top: 1rem; padding: 0.5rem 2rem;">
+                <strong th:text="#{dashboard.ultima_conexion} + ':'"></strong> <span th:text="${ultimaVisita}"></span>
+            </div>
+        </header>
+
+        <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 2rem 0;">
+
+        <h2 th:text="#{dashboard.panel}"></h2>
+        
+        <div class="list-container">
+            <div class="list-item">
+                <span><strong th:text="#{dashboard.mod.clientes}"></strong> <span th:text="#{dashboard.desc.clientes}"></span></span>
+                <a th:href="@{/clientes}" class="btn" th:text="#{btn.gestionar}"></a>
+            </div>
+            <div class="list-item">
+                <span><strong th:text="#{dashboard.mod.viajes}"></strong> <span th:text="#{dashboard.desc.viajes}"></span></span>
+                <a th:href="@{/viajes}" class="btn" th:text="#{btn.gestionar}"></a>
+            </div>
+            <div class="list-item">
+                <span><strong th:text="#{dashboard.mod.reservas}"></strong> <span th:text="#{dashboard.desc.reservas}"></span></span>
+                <a th:href="@{/reservas}" class="btn" th:text="#{btn.gestionar}"></a>
+            </div>
+            <div class="list-item">
+                <span><strong th:text="#{dashboard.mod.empleados}"></strong> <span th:text="#{dashboard.desc.empleados}"></span></span>
+                <a th:href="@{/empleados}" class="btn" th:text="#{btn.gestionar}"></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio - Viajes Global Express</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+
+    <nav>
+        <a th:href="@{/dashboard}">Inicio</a>
+        <a th:href="@{/clientes}">Clientes</a>
+        <a th:href="@{/empleados}">Empleados</a>
+        <a th:href="@{/viajes}">Viajes</a>
+        <a th:href="@{/reservas}">Reservas</a>
+        <a th:href="@{/contacto}">Contacto</a>
+    </nav>
+
+    <div class="container">
+        <header style="text-align: center; margin-bottom: 3rem;">
+            <h1 th:text="${nombreAgencia}"></h1>
+            <p style="font-size: 1.2rem; color: #6b7280;" th:text="${mensaje}"></p>
+            
+            <div class="alert alert-success" style="display: inline-block; margin-top: 1rem; padding: 0.5rem 2rem;">
+                <strong>Última conexión:</strong> <span th:text="${ultimaVisita}"></span>
+            </div>
+        </header>
+
+        <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 2rem 0;">
+
+        <h2>Panel de Gestión</h2>
+        
+        <div class="list-container">
+            <div class="list-item">
+                <span><strong>Módulo Clientes:</strong> Alta, baja y consulta de viajeros.</span>
+                <a th:href="@{/clientes}" class="btn">Gestionar</a>
+            </div>
+            
+            <div class="list-item">
+                <span><strong>Módulo Viajes:</strong> Configuración de destinos, fechas y plazas.</span>
+                <a th:href="@{/viajes}" class="btn">Gestionar</a>
+            </div>
+            
+            <div class="list-item">
+                <span><strong>Módulo Reservas:</strong> Asignación de pasajeros a viajes activos.</span>
+                <a th:href="@{/reservas}" class="btn">Gestionar</a>
+            </div>
+
+            <div class="list-item">
+                <span><strong>Módulo Equipo:</strong> Administración del personal y puestos.</span>
+                <a th:href="@{/empleados}" class="btn">Gestionar</a>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+ -->

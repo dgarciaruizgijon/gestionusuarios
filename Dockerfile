@@ -9,6 +9,7 @@ ENTRYPOINT ["java","-jar","/app/app.jar"]
 
 
 
+
 # # Stage 1: Build the application
 # FROM eclipse-temurin:21-jdk AS builder
 # # Set the working directory

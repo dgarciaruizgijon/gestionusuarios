@@ -38,12 +38,24 @@ public class Viaje {
 
     // Método para reservar plaza
     public boolean reservarPlaza(Cliente cliente) {
-        if (plazas > clientes.size()) {
-            clientes.add(cliente);
+        if (this.plazas > 0) { // Si queda al menos 1 plaza disponible
+            this.clientes.add(cliente); // Añadimos el cliente al viaje
+            this.plazas--; // Restamos 1 al número de plazas disponibles
+            return true;
+        }
+        return false; // No quedan plazas
+    }
+
+    // Método para cancelar una reserva
+    public boolean cancelarReserva(Cliente cliente) {
+        if (this.clientes.remove(cliente)) { // Si el cliente estaba en la lista y se borra con éxito
+            this.plazas++; // Le devolvemos 1 plaza libre al viaje
             return true;
         }
         return false;
     }
+
+    // ----------------------------------------------------------------------------------------------------
 
     // Getters y Setters
     public Long getId() { return id; }
@@ -66,67 +78,3 @@ public class Viaje {
 }
 
 
-
-
-
-
-
-// public class Viaje {
-
-//     private String destino;
-//     private String fecha;
-//     private int plazasTotales;
-
-//     private List<Cliente> reservas = new ArrayList<>();
-//     private Empleado guia;
-
-//     public Viaje(String destino, String fecha, int plazasTotales, Empleado guia) {
-//         this.destino = destino;
-//         this.fecha = fecha;
-//         this.plazasTotales = plazasTotales;
-//         this.guia = guia;
-//     }
-
-//     public int getPlazasLibres() {
-//         return plazasTotales - reservas.size();
-//     }
-
-//     public boolean reservarPlaza(Cliente cliente) {
-//         if (getPlazasLibres() > 0 && !reservas.contains(cliente)) {
-//             reservas.add(cliente);
-//             return true;
-//         } else {
-//             return false;
-//         }
-//     }
-
-//     public String getDestino() {
-//         return destino;
-//     }
-
-//     public String getFecha() {
-//         return fecha;
-//     }
-
-//     public int getPlazasTotales() {
-//         return plazasTotales;
-//     }
-
-//     public List<Cliente> getReservas() {
-//         return reservas;
-//     }
-
-//     public Empleado getGuia() {
-//         return guia;
-//     }
-
-//     @Override
-//     public String toString() {
-//         return "Viaje a " + destino + " (" + fecha + ")\n" +
-//                 "Guía: " + (guia != null ? guia.getNombre() : "No asignado") + "\n" +
-//                 "Plazas totales: " + plazasTotales + "\n" +
-//                 "Plazas libres: " + getPlazasLibres() + "\n" +
-//                 "Clientes reservados: " + reservas.size();
-//     }
-
-// }

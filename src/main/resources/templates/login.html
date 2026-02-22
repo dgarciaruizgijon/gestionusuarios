@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{login.titulo} + ' - Viajes Global Express'"></title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body class="auth-body">
+    <div class="auth-container">
+        
+        <div style="text-align: right; margin-bottom: 15px; font-size: 0.85rem;">
+            <a th:href="@{/(lang='es')}" style="font-weight: bold; text-decoration:none; color:var(--text-main);">ES</a> | 
+            <a th:href="@{/(lang='en')}" style="font-weight: bold; text-decoration:none; color:var(--text-main);">EN</a>
+        </div>
+
+        <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+        <div th:if="${param.error}" class="alert alert-error" th:text="#{login.error_credenciales}"></div>
+        <div th:if="${param.logout}" class="alert alert-success" th:text="#{login.exito_logout}"></div>
+
+        <h2 th:text="#{login.titulo}"></h2>
+        
+        <form th:action="@{/login}" method="post" class="form-column">
+            <input type="text" name="username" th:placeholder="#{login.placeholder.correo}" required />
+            <input type="password" name="password" th:placeholder="#{login.placeholder.pass}" required />
+            <button type="submit" class="btn" th:text="#{btn.entrar}"></button>
+        </form>
+
+        <div class="login-link">
+            <p><span th:text="#{login.pregunta_registro}"></span> <a th:href="@{/registro}" th:text="#{login.enlace_registro}"></a></p>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Viajes con David</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+
+<body class="auth-body">
+    
+    <div class="auth-container">
+        
+        <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+        
+        <div th:if="${param.error}" class="alert alert-error">Correo o contraseña incorrectos</div>
+        <div th:if="${param.logout}" class="alert alert-success">Has cerrado sesión correctamente</div>
+
+        <h2>Login</h2>
+        
+        <form th:action="@{/login}" method="post" class="form-column">
+            <input type="text" name="username" placeholder="Correo" required />
+            <input type="password" name="password" placeholder="Contraseña" required />
+            <button type="submit" class="btn">Entrar</button>
+        </form>
+
+        <div class="login-link">
+            <p>¿No tienes cuenta? <a th:href="@{/registro}">Regístrate aquí</a></p>
+        </div>
+        
+    </div>
+    
+</body>
+</html>
+
+ -->

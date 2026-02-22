@@ -1,25 +1,89 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Clientes - Viajes Global Express</title>
-    <style>
-        body { font-family:'Segoe UI'; background:#f4f8fb; margin:0; color:#222; }
-        nav { background:#286aa3; padding:10px; text-align:center; }
-        nav a { color:white; margin:0 10px; text-decoration:none; font-weight:600; }
-        .container { max-width:900px; margin:30px auto; background:white; padding:2rem; border-radius:10px; box-shadow:0 2px 10px rgba(60,80,120,0.1);}
-        h1 { color:#286aa3; text-align:center; }
-        form { display:flex; gap:0.8rem; margin:1rem 0; }
-        input,button { padding:0.5rem; border-radius:6px; border:1px solid #b4c7e7; }
-        button { background:#286aa3; color:white; border:none; font-weight:600; }
-        button:hover { background:#4698d6; }
-        ul { list-style:none; padding:0; }
-        li { background:#f6fafd; margin:0.3rem 0; padding:0.5rem 0.9rem; border-radius:7px; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{nav.viajes} + ' - Viajes Global Express'"></title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
 </head>
+
 <body>
     <nav>
-        <a th:href="@{/}">Inicio</a>
+        <a th:href="@{/dashboard}" th:text="#{nav.inicio}"></a>
+        <a th:href="@{/clientes}" th:text="#{nav.clientes}"></a>
+        <a th:href="@{/empleados}" th:text="#{nav.empleados}"></a>
+        <a th:href="@{/viajes}" th:text="#{nav.viajes}"></a>
+        <a th:href="@{/reservas}" th:text="#{nav.reservas}"></a>
+        <a th:href="@{/contacto}" th:text="#{nav.contacto}"></a>
+    </nav>
+
+    <div class="container">
+        
+        <div style="text-align: right; margin-bottom: 10px; font-size: 0.9rem;">
+            <strong th:text="#{idioma.seleccionar} + ':'"></strong>
+            <a th:href="@{/viajes(lang='es')}" style="margin-left: 5px; font-weight: bold;">ES</a> | 
+            <a th:href="@{/viajes(lang='en')}" style="margin-left: 5px; font-weight: bold;">EN</a>
+        </div>
+
+        <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+        <h1 th:text="#{viajes.titulo}"></h1>
+
+        <form th:action="@{/agregarViaje}" method="post" class="form-inline">
+            <input type="text" name="destino" th:placeholder="#{viajes.label.destino}" required />
+            <input type="date" name="fecha" th:placeholder="#{viajes.label.fecha}" required />
+            <input type="number" name="plazas" th:placeholder="#{viajes.label.plazas}" required />
+            <input type="text" name="guia" th:placeholder="#{viajes.label.guia}" required />
+            <button type="submit" class="btn" th:text="#{btn.agregar}"></button>
+        </form>
+
+        <h2 th:text="#{viajes.subtitulo.buscar}"></h2>
+        <form th:action="@{/buscarViajes}" method="get" class="form-small">
+            <input type="text" name="patron" th:placeholder="#{viajes.placeholder.buscar}" required />
+            <button type="submit" class="btn" th:text="#{btn.buscar}"></button>
+        </form>
+
+        <h2 th:text="#{viajes.subtitulo.listado}"></h2>
+        <div class="list-container">
+            <div class="list-item" th:each="viaje : ${viajes}">
+                <span>
+                    <strong th:text="#{viajes.label.destino} + ':'"></strong> <span th:text="${viaje.destino}"></span> | 
+                    <strong th:text="#{viajes.label.fecha} + ':'"></strong> <span th:text="${viaje.fecha}"></span> | 
+                    <strong th:text="#{viajes.label.plazas} + ':'"></strong> <span th:text="${viaje.plazas}"></span>
+                </span>
+            </div>
+            <div th:if="${#lists.isEmpty(viajes)}" class="list-item">
+                <em th:text="#{viajes.lista.vacia}"></em>
+            </div>
+        </div>
+
+        <h2 th:text="#{viajes.subtitulo.eliminar}"></h2>
+        <form th:action="@{/eliminarViaje}" method="post" class="form-small">
+            <input type="text" name="destino" th:placeholder="#{viajes.placeholder.eliminar}" required />
+            <button type="submit" class="btn btn-danger" th:text="#{btn.eliminar}"></button>
+        </form>
+    </div>
+
+</body>
+</html>
+
+
+
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viajes - Viajes Global Express</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+
+<body>
+    <nav>
+        <a th:href="@{/dashboard}">Inicio</a>
         <a th:href="@{/clientes}">Clientes</a>
         <a th:href="@{/empleados}">Empleados</a>
         <a th:href="@{/viajes}">Viajes</a>
@@ -28,32 +92,50 @@
     </nav>
 
     <div class="container">
-    <h1>Gestión de Viajes</h1>
+        
+        <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
 
-    <form th:action="@{/agregarViaje}" method="post">
-        <input type="text" name="destino" placeholder="Destino" required />
-        <input type="text" name="fecha" placeholder="Fecha" required />
-        <input type="number" name="plazas" placeholder="Plazas" required min="1" />
-        <select name="guia" required>
-            <option th:each="empleado : ${empleados}" th:value="${empleado.nombre}" th:text="${empleado.nombre}"></option>
-        </select>
-        <button type="submit">Agregar Viaje</button>
-    </form>
+        <h1>Gestión de Viajes</h1>
 
-    <h3>Listado de Viajes</h3>
-    <ul>
-        <li th:each="viaje : ${viajes}" th:text="${viaje.toString()}"></li>
-    </ul>
+        <form th:action="@{/agregarViaje}" method="post" class="form-inline">
+            <input type="text" name="destino" placeholder="Destino" required />
+            <input type="date" name="fecha" required />
+            <input type="number" name="plazas" placeholder="Plazas" required min="1" />
+            <select name="guia" required>
+                <option value="" disabled selected>Selecciona un guía...</option>
+                <option th:each="empleado : ${empleados}" th:value="${empleado.nombre}" th:text="${empleado.nombre}">
+                </option>
+            </select>
+            <button type="submit" class="btn">Agregar Viaje</button>
+        </form>
 
-    <h3>Eliminar Viaje</h3>
-    <form th:action="@{/eliminarViaje}" method="post">
-        <input type="text" name="destino" placeholder="Destino a eliminar" required />
-        <button type="submit">Eliminar Viaje</button>
-    </form>
+        <h2>Listado de Viajes</h2>
+        <div class="list-container">
+            <div class="list-item" th:each="viaje : ${viajes}">
+                <span><strong>Destino:</strong> <span th:text="${viaje.destino}"></span></span>
+                <span><strong>Fecha:</strong> <span th:text="${viaje.fecha}"></span></span>
+                <span><strong>Plazas:</strong> <span th:text="${viaje.plazas}"></span></span>
+                <span><strong>Guía:</strong> 
+                    <span th:text="${viaje.guia != null ? viaje.guia.nombre : 'Sin guía asignado'}"></span>
+                </span>
+            </div>
 
-    <div style="color:red;" th:if="${error}" th:text="${error}"></div>
-    <div style="color:green;" th:if="${mensaje}" th:text="${mensaje}"></div>
-</div>
+            <div th:if="${#lists.isEmpty(viajes)}" class="list-item">
+                <em>No hay viajes programados actualmente.</em>
+            </div>
+        </div>
+
+        <h2>Eliminar Viaje</h2>
+        <form th:action="@{/eliminarViaje}" method="post" class="form-small" onsubmit="return confirmarBorrado()">
+            <input type="text" name="destino" placeholder="Destino exacto a eliminar" required />
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+        </form>
+
+    </div>
+
+    <script th:src="@{/js/app.js}"></script>
 
 </body>
-</html>
+
+</html> -->

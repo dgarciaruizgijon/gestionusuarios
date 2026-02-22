@@ -1,5 +1,8 @@
 package com.example.gestionusuarios.models;
 
+import jakarta.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public class Persona {
     protected String nombre;
     protected String correo;
@@ -13,6 +16,9 @@ public class Persona {
         this.nombre = nombre;
         this.correo = correo;
         this.direccion = direccion;
+    }
+
+    public Persona() {
     }
 
     // Getters

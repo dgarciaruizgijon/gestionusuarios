@@ -10,15 +10,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class Empleado {
+public class Empleado extends Persona {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nombre;
-    private String correo;
-    private String direccion;
     private String puesto;
 
     @OneToMany(mappedBy = "guia")
@@ -27,60 +24,35 @@ public class Empleado {
     public Empleado() {}
 
     public Empleado(String nombre, String correo, String direccion, String puesto) {
-        this.nombre = nombre;
-        this.correo = correo;
-        this.direccion = direccion;
+        this.nombre = nombre;       // heredado
+        this.correo = correo;       // heredado
+        this.direccion = direccion; // heredado
         this.puesto = puesto;
     }
 
     // Getters y Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() { 
+        return id; 
+    }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public String getPuesto() { 
+        return puesto; 
+    }
 
-    public String getCorreo() { return correo; }
-    public void setCorreo(String correo) { this.correo = correo; }
+    public void setPuesto(String puesto) { 
+        this.puesto = puesto; 
+    }
 
-    public String getDireccion() { return direccion; }
-    public void setDireccion(String direccion) { this.direccion = direccion; }
+    public List<Viaje> getViajesGuiados() { 
+        return viajesGuiados; 
+    }
 
-    public String getPuesto() { return puesto; }
-    public void setPuesto(String puesto) { this.puesto = puesto; }
-
-    public List<Viaje> getViajesGuiados() { return viajesGuiados; }
-    public void setViajesGuiados(List<Viaje> viajesGuiados) { this.viajesGuiados = viajesGuiados; }
+    public void setViajesGuiados(List<Viaje> viajesGuiados) { 
+        this.viajesGuiados = viajesGuiados; 
+    }
 
     @Override
     public String toString() {
         return nombre + " | " + correo + " | " + direccion + " | " + puesto;
     }
 }
-
-
-
-
-
-
-// public class Empleado extends Persona implements Ordenable {
-//     private String puesto;
-
-//     public Empleado(String nombre, String correo, String direccion, String puesto) throws CorreoInvalidoException {
-//         super(nombre, correo, direccion);
-//         this.puesto = puesto;
-//     }
-
-//     public String getPuesto() {
-//         return puesto;
-//     }
-
-//     public int compareTo(Persona otro) {
-//         return nombre.compareToIgnoreCase(otro.getNombre());
-//     }
-
-//     public String toString() {
-//         return super.toString() + " | Puesto: " + puesto;
-//     }
-
-// }

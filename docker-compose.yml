@@ -25,7 +25,21 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://viajes-mysql:3306/viajesdb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: toor
+      SPRING_PROFILES_ACTIVE: dev
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: viajes-mysql
+      PMA_USER: root
+      PMA_PASSWORD: toor
+    depends_on:
+      - viajes-mysql
+
+      
 volumes:
   viajes-mysql-data:
 

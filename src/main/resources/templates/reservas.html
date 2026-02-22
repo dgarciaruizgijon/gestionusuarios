@@ -1,19 +1,82 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Inicio - Viajes Global Express</title>
-    <style>
-        body { font-family:'Segoe UI'; background:#f4f8fb; margin:0; color:#222; text-align:center; }
-        nav { background:#286aa3; padding:10px; }
-        nav a { color:white; margin:0 10px; text-decoration:none; font-weight:600; }
-        .container { max-width:700px; margin:50px auto; background:white; padding:2rem; border-radius:10px; box-shadow:0 2px 10px rgba(60,80,120,0.1);}
-        h1 { color:#286aa3; }
-    </style>
+    <title th:text="#{nav.reservas} + ' - Viajes Global Express'"></title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
 </head>
 <body>
     <nav>
-        <a th:href="@{/}">Inicio</a>
+        <a th:href="@{/dashboard}" th:text="#{nav.inicio}"></a>
+        <a th:href="@{/clientes}" th:text="#{nav.clientes}"></a>
+        <a th:href="@{/empleados}" th:text="#{nav.empleados}"></a>
+        <a th:href="@{/viajes}" th:text="#{nav.viajes}"></a>
+        <a th:href="@{/reservas}" th:text="#{nav.reservas}"></a>
+        <a th:href="@{/contacto}" th:text="#{nav.contacto}"></a>
+    </nav>
+
+    <div class="container">
+        <div style="text-align: right; margin-bottom: 10px; font-size: 0.9rem;">
+            <strong th:text="#{idioma.seleccionar} + ':'"></strong>
+            <a th:href="@{/reservas(lang='es')}" style="margin-left: 5px; font-weight: bold;">ES</a> | 
+            <a th:href="@{/reservas(lang='en')}" style="margin-left: 5px; font-weight: bold;">EN</a>
+        </div>
+
+        <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+        <h1 th:text="#{reservas.titulo}"></h1>
+
+        <form th:action="@{/reservar}" method="post" class="form-inline">
+            <select name="cliente" required>
+                <option value="" disabled selected th:text="#{reservas.seleccionar_cliente}"></option>
+                <option th:each="cliente : ${clientes}" th:value="${cliente.nombre}" th:text="${cliente.nombre}"></option>
+            </select>
+            <select name="destino" required>
+                <option value="" disabled selected th:text="#{reservas.seleccionar_destino}"></option>
+                <option th:each="viaje : ${viajes}" th:value="${viaje.destino}" th:text="${viaje.destino}"></option>
+            </select>
+            <button type="submit" class="btn" th:text="#{btn.reservar}"></button>
+        </form>
+
+        <h2 th:text="#{reservas.subtitulo.listado}"></h2>
+        <div>
+            <div th:each="viaje : ${viajes}" th:if="${not #lists.isEmpty(viaje.clientes)}" style="margin-bottom: 2.5rem;">
+                <h3 th:text="#{reservas.viaje_a} + ' ' + ${viaje.destino} + ' (' + ${viaje.fecha} + ')'" 
+                    style="border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem; color: var(--text-main);"></h3>
+                
+                <div class="list-container">
+                    <div class="list-item" th:each="cliente : ${viaje.clientes}" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>🎫 <strong th:text="#{reservas.pasajero} + ':'"></strong> <span th:text="${cliente.nombre}"></span></span>
+                        
+                        <form th:action="@{/eliminarReserva}" method="post" style="margin: 0;">
+                            <input type="hidden" name="cliente" th:value="${cliente.nombre}" />
+                            <input type="hidden" name="destino" th:value="${viaje.destino}" />
+                            <button type="submit" class="btn btn-danger" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" th:text="'❌ ' + #{btn.cancelar}"></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas - Viajes Global Express</title> 
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+
+<body>
+    <nav>
+        <a th:href="@{/dashboard}">Inicio</a>
         <a th:href="@{/clientes}">Clientes</a>
         <a th:href="@{/empleados}">Empleados</a>
         <a th:href="@{/viajes}">Viajes</a>
@@ -22,21 +85,51 @@
     </nav>
 
     <div class="container">
-    <h1>Reservar Viaje</h1>
+        
+        <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
 
-    <form th:action="@{/reservar}" method="post">
-        <select name="cliente" required>
-            <option th:each="cliente : ${clientes}" th:value="${cliente.nombre}" th:text="${cliente.nombre}"></option>
-        </select>
-        <select name="destino" required>
-            <option th:each="viaje : ${viajes}" th:value="${viaje.destino}" th:text="${viaje.destino}"></option>
-        </select>
-        <button type="submit">Reservar</button>
-    </form>
+        <h1>Gestión de Reservas</h1>
 
-    <div style="color:red;" th:if="${error}" th:text="${error}"></div>
-    <div style="color:green;" th:if="${mensaje}" th:text="${mensaje}"></div>
-</div>
+        <form th:action="@{/reservar}" method="post" class="form-inline">
+            <select name="cliente" required>
+                <option value="" disabled selected>Selecciona un cliente...</option>
+                <option th:each="cliente : ${clientes}" th:value="${cliente.nombre}" th:text="${cliente.nombre}">
+                </option>
+            </select>
+            <select name="destino" required>
+                <option value="" disabled selected>Selecciona un destino...</option>
+                <option th:each="viaje : ${viajes}" th:value="${viaje.destino}" th:text="${viaje.destino}"></option>
+            </select>
+            <button type="submit" class="btn">Reservar</button>
+        </form>
+
+        <h2>Listado de Reservas por Viaje</h2>
+        
+        <div>
+            <div th:each="viaje : ${viajes}" th:if="${not #lists.isEmpty(viaje.clientes)}" style="margin-bottom: 2.5rem;">
+                
+                <h3 th:text="'Viaje a ' + ${viaje.destino} + ' (' + ${viaje.fecha} + ')'" 
+                    style="border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem; color: var(--text-main);"></h3>
+                
+                <div class="list-container">
+                    <div class="list-item" th:each="cliente : ${viaje.clientes}" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>🎫 <strong>Pasajero:</strong> <span th:text="${cliente.nombre}"></span></span>
+                        
+                        <form th:action="@{/eliminarReserva}" method="post" style="margin: 0;">
+                            <input type="hidden" name="cliente" th:value="${cliente.nombre}" />
+                            <input type="hidden" name="destino" th:value="${viaje.destino}" />
+                            <button type="submit" class="btn btn-danger" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">❌ Cancelar</button>
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
 
 </body>
+
 </html>
+ -->

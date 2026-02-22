@@ -1,25 +1,89 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Clientes - Viajes Global Express</title>
-    <style>
-        body { font-family:'Segoe UI'; background:#f4f8fb; margin:0; color:#222; }
-        nav { background:#286aa3; padding:10px; text-align:center; }
-        nav a { color:white; margin:0 10px; text-decoration:none; font-weight:600; }
-        .container { max-width:900px; margin:30px auto; background:white; padding:2rem; border-radius:10px; box-shadow:0 2px 10px rgba(60,80,120,0.1);}
-        h1 { color:#286aa3; text-align:center; }
-        form { display:flex; gap:0.8rem; margin:1rem 0; }
-        input,button { padding:0.5rem; border-radius:6px; border:1px solid #b4c7e7; }
-        button { background:#286aa3; color:white; border:none; font-weight:600; }
-        button:hover { background:#4698d6; }
-        ul { list-style:none; padding:0; }
-        li { background:#f6fafd; margin:0.3rem 0; padding:0.5rem 0.9rem; border-radius:7px; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{nav.empleados} + ' - Viajes Global Express'"></title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
 </head>
+
 <body>
     <nav>
-        <a th:href="@{/}">Inicio</a>
+        <a th:href="@{/dashboard}" th:text="#{nav.inicio}"></a>
+        <a th:href="@{/clientes}" th:text="#{nav.clientes}"></a>
+        <a th:href="@{/empleados}" th:text="#{nav.empleados}"></a>
+        <a th:href="@{/viajes}" th:text="#{nav.viajes}"></a>
+        <a th:href="@{/reservas}" th:text="#{nav.reservas}"></a>
+        <a th:href="@{/contacto}" th:text="#{nav.contacto}"></a>
+    </nav>
+
+    <div class="container">
+        
+        <div style="text-align: right; margin-bottom: 10px; font-size: 0.9rem;">
+            <strong th:text="#{idioma.seleccionar} + ':'"></strong>
+            <a th:href="@{/empleados(lang='es')}" style="margin-left: 5px; font-weight: bold;">ES</a> | 
+            <a th:href="@{/empleados(lang='en')}" style="margin-left: 5px; font-weight: bold;">EN</a>
+        </div>
+
+        <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+        <h1 th:text="#{empleados.titulo}"></h1>
+
+        <form th:action="@{/agregarEmpleado}" method="post" class="form-inline">
+            <input type="text" name="nombre" th:placeholder="#{empleados.label.nombre}" required />
+            <input type="email" name="correo" th:placeholder="#{empleados.label.correo}" required />
+            <input type="text" name="direccion" th:placeholder="#{empleados.label.direccion}" required />
+            <input type="text" name="puesto" th:placeholder="#{empleados.label.puesto}" required />
+            <button type="submit" class="btn" th:text="#{btn.agregar}"></button>
+        </form>
+
+        <h2 th:text="#{empleados.subtitulo.buscar}"></h2>
+        <form th:action="@{/buscarEmpleados}" method="get" class="form-small">
+            <input type="text" name="patron" th:placeholder="#{empleados.placeholder.buscar}" required />
+            <button type="submit" class="btn" th:text="#{btn.buscar}"></button>
+        </form>
+
+        <h2 th:text="#{empleados.subtitulo.listado}"></h2>
+        <div class="list-container">
+            <div class="list-item" th:each="empleado : ${empleados}">
+                <span>
+                    <strong th:text="#{empleados.label.nombre} + ':'"></strong> <span th:text="${empleado.nombre}"></span> | 
+                    <strong th:text="#{empleados.label.correo} + ':'"></strong> <span th:text="${empleado.correo}"></span> | 
+                    <strong th:text="#{empleados.label.puesto} + ':'"></strong> <span th:text="${empleado.puesto}"></span>
+                </span>
+            </div>
+            <div th:if="${#lists.isEmpty(empleados)}" class="list-item">
+                <em th:text="#{empleados.lista.vacia}"></em>
+            </div>
+        </div>
+
+        <h2 th:text="#{empleados.subtitulo.eliminar}"></h2>
+        <form th:action="@{/eliminarEmpleado}" method="post" class="form-small">
+            <input type="text" name="nombre" th:placeholder="#{empleados.placeholder.eliminar}" required />
+            <button type="submit" class="btn btn-danger" th:text="#{btn.eliminar}"></button>
+        </form>
+    </div>
+
+</body>
+</html>
+
+
+
+
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empleados - Viajes Global Express</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+
+<body>
+    <nav>
+        <a th:href="@{/dashboard}">Inicio</a>
         <a th:href="@{/clientes}">Clientes</a>
         <a th:href="@{/empleados}">Empleados</a>
         <a th:href="@{/viajes}">Viajes</a>
@@ -28,31 +92,49 @@
     </nav>
 
     <div class="container">
-    <h1>Gestión de Empleados</h1>
+        
+        <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
 
-    <form th:action="@{/agregarEmpleado}" method="post">
-        <input type="text" name="nombre" placeholder="Nombre" required />
-        <input type="email" name="correo" placeholder="Correo" required />
-        <input type="text" name="direccion" placeholder="Dirección" required />
-        <input type="text" name="puesto" placeholder="Puesto" required />
-        <button type="submit">Agregar Empleado</button>
-    </form>
+        <h1>Gestión de Empleados</h1>
 
-    <h3>Listado de Empleados</h3>
-    <ul>
-        <li th:each="empleado : ${empleados}">
-            Nombre: <span th:text="${empleado.nombre}"></span> | 
-            Correo: <span th:text="${empleado.correo}"></span> | 
-            Puesto: <span th:text="${empleado.direccion}"></span> | 
-            DNI: <span th:text="${empleado.puesto}"></span>
-        </li>
-    </ul>
+        <form th:action="@{/agregarEmpleado}" method="post" class="form-inline">
+            <input type="text" name="nombre" placeholder="Nombre" required />
+            <input type="email" name="correo" placeholder="Correo" required />
+            <input type="text" name="direccion" placeholder="Dirección" required />
+            <select name="puesto" required>
+                <option value="" disabled selected>Selecciona un puesto...</option>
+                <option value="Guía">Guía</option>
+                <option value="Recepcionista">Recepcionista</option>
+                <option value="Gerente">Gerente</option>
+            </select>
+            <button type="submit" class="btn">Agregar Empleado</button>
+        </form>
 
+        <h2>Listado de Empleados</h2>
+        <div class="list-container">
+            <div class="list-item" th:each="empleado : ${empleados}">
+                <span><strong>Nombre:</strong> <span th:text="${empleado.nombre}"></span></span>
+                <span><strong>Correo:</strong> <span th:text="${empleado.correo}"></span></span>
+                <span><strong>Dirección:</strong> <span th:text="${empleado.direccion}"></span></span>
+                <span><strong>Puesto:</strong> <span th:text="${empleado.puesto}"></span></span>
+            </div>
 
-    <div style="color:red;" th:if="${error}" th:text="${error}"></div>
-    <div style="color:green;" th:if="${mensaje}" th:text="${mensaje}"></div>
-</div>
+            <div th:if="${#lists.isEmpty(empleados)}" class="list-item">
+                <em>No hay empleados registrados actualmente.</em>
+            </div>
+        </div>
+
+        <h2>Eliminar Empleado</h2>
+        <form th:action="@{/eliminarEmpleado}" method="post" class="form-small" onsubmit="return confirmarBorrado()">
+            <input type="text" name="nombre" placeholder="Nombre exacto a eliminar" required />
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+        </form>
+
+    </div>
+
+    <script th:src="@{/js/app.js}"></script>
 </body>
+
 </html>
-
-
+ -->

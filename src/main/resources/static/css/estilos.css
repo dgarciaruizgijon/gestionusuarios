@@ -1,0 +1,264 @@
+/* =========================================
+   VARIABLES Y CONFIGURACIÓN GENERAL
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #2563eb;       /* Azul moderno */
+    --primary-hover: #1d4ed8;       /* Azul oscuro para hover */
+    --bg-color: #f3f4f6;            /* Fondo gris muy claro */
+    --card-bg: #ffffff;             /* Fondo blanco tarjetas */
+    --text-main: #1f2937;           /* Texto principal oscuro */
+    --text-muted: #6b7280;          /* Texto secundario gris */
+    --border-color: #e5e7eb;        /* Bordes suaves */
+    --danger-color: #dc2626;        /* Rojo para botones de eliminar */
+    --danger-hover: #b91c1c;
+    --success-bg: #dcfce7;          /* Fondo verde para éxito */
+    --success-text: #166534;        /* Texto verde para éxito */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+/* =========================================
+   BARRA DE NAVEGACIÓN (NAVBAR)
+   ========================================= */
+nav {
+    background-color: var(--primary-color);
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* =========================================
+   CONTENEDOR PRINCIPAL (TARJETA)
+   ========================================= */
+.container {
+    max-width: 1100px;
+    margin: 3rem auto;
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+}
+
+h1, h2, h3 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+}
+
+h2 {
+    font-size: 1.2rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    margin-top: 2rem;
+    color: var(--text-main);
+}
+
+/* =========================================
+   FORMULARIOS Y CAJAS DE TEXTO
+   ========================================= */
+/* Formulario en línea (para añadir cliente) */
+.form-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end; /* Alinea los inputs con el botón por abajo */
+    margin-bottom: 1.5rem;
+}
+
+/* Formulario con buscador/eliminar (más pequeño) */
+.form-small {
+    display: flex;
+    gap: 1rem;
+    max-width: 500px;
+    margin-bottom: 1.5rem;
+}
+
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+input[type="number"],
+input[type="date"],
+select {
+    flex: 1; /* Hace que ocupen todo el espacio disponible */
+    min-width: 150px;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--text-main);
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); /* Brillo azul al hacer clic */
+}
+
+/* =========================================
+   BOTONES
+   ========================================= */
+button, .btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap; /* Evita que el texto del botón se parta en dos líneas */
+}
+
+button:hover, .btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px); /* Efecto de que se levanta un poco */
+}
+
+/* Botón de eliminar (Rojo) */
+.btn-danger {
+    background-color: var(--danger-color);
+}
+
+.btn-danger:hover {
+    background-color: var(--danger-hover);
+}
+
+/* =========================================
+   LISTAS Y TABLAS (DISEÑO LIMPIO)
+   ========================================= */
+.list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.list-item {
+    background-color: #f8fafc;
+    border: 1px solid var(--border-color);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.list-item:hover {
+    background-color: #f1f5f9;
+}
+
+.list-item span {
+    margin-right: 1.5rem;
+}
+
+.list-item strong {
+    color: var(--primary-color);
+}
+
+/* =========================================
+   MENSAJES DE ÉXITO O ERROR
+   ========================================= */
+.alert {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.alert-success {
+    background-color: var(--success-bg);
+    color: var(--success-text);
+    border: 1px solid #bbf7d0;
+}
+
+.alert-error {
+    background-color: #fef2f2;
+    color: var(--danger-color);
+    border: 1px solid #fecaca;
+}
+
+/* =========================================
+   PÁGINAS DE LOGIN Y REGISTRO
+   ========================================= */
+.auth-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.auth-container {
+    background: var(--card-bg);
+    padding: 2.5rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.login-link {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+.login-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.login-link a:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}

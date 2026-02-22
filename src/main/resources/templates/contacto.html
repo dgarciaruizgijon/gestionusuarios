@@ -1,4 +1,55 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Viajes Global Express</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+
+    <nav>
+        <a th:href="@{/dashboard}">Inicio</a>
+        <a th:href="@{/clientes}">Clientes</a>
+        <a th:href="@{/empleados}">Empleados</a>
+        <a th:href="@{/viajes}">Viajes</a>
+        <a th:href="@{/reservas}">Reservas</a>
+        <a th:href="@{/contacto}">Contacto</a>
+    </nav>
+
+    <div class="container">
+        <h1>Contacto</h1>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">
+            Si tienes cualquier duda sobre nuestros servicios, nuestro equipo está a tu disposición:
+        </p>
+
+        <div class="list-container">
+            <div class="list-item">
+                <span>📧 <strong>Email:</strong> ejercicio_inventado@iesruizgijon.com</span>
+            </div>
+            
+            <div class="list-item">
+                <span>📞 <strong>Teléfono:</strong> +34 661 80 77 57</span>
+            </div>
+            
+            <div class="list-item">
+                <span>📍 <strong>Dirección:</strong> Calle Violonchelo 6, Utrera</span>
+            </div>
+        </div>
+
+        <div style="margin-top: 2rem; text-align: center;">
+            <a th:href="@{/dashboard}" class="btn">Volver al Panel</a>
+        </div>
+    </div>
+
+</body>
+</html>
+
+
+
+
+
+<!-- <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -52,7 +103,7 @@
 </head>
 <body>
     <nav>
-        <a th:href="@{/}">Inicio</a>
+        <a th:href="@{/dashboard}">Inicio</a>
         <a th:href="@{/clientes}">Clientes</a>
         <a th:href="@{/empleados}">Empleados</a>
         <a th:href="@{/viajes}">Viajes</a>
@@ -72,4 +123,4 @@
 
 </body>
 </html>
-
+ -->
