@@ -1,8 +1,27 @@
+# Etapa 1: Construir el proyecto
+FROM maven:3.9-eclipse-temurin-21 AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# Etapa 2: Levantar la aplicacion
 FROM eclipse-temurin:21-jre
 WORKDIR /app
-COPY target/gestionusuarios-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/gestionusuarios-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app/app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
+
+
+
+
+
+# FROM eclipse-temurin:21-jre
+# WORKDIR /app
+# COPY target/gestionusuarios-0.0.1-SNAPSHOT.jar app.jar          Éste es el que hay que dejar
+# EXPOSE 8080
+# ENTRYPOINT ["java","-jar","/app/app.jar"]
 
 
 
