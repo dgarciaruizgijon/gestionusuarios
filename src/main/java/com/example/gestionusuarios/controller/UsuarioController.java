@@ -49,6 +49,15 @@ public class UsuarioController {
     @PostMapping("/registro")
     public String registrarUsuario(@RequestParam String username, @RequestParam String password, Model model) {
         
+        // --- NUEVA VALIDACIÓN DE CONTRASEÑA ---
+        // Contamos cuántos caracteres de la contraseña son números
+        long cantidadNumeros = password.chars().filter(Character::isDigit).count();
+        
+        if (cantidadNumeros < 4) {
+            model.addAttribute("error", "La contraseña debe contener al menos 4 números por seguridad.");
+            return "registro";
+        }
+
         Usuario usuarioExistente = usuarioRepo.findByUsername(username).orElse(null); 
         
         if (usuarioExistente != null) {

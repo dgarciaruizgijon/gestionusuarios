@@ -16,7 +16,9 @@
 
         <form th:action="@{/registro}" method="post" class="form-column">
             <input type="text" name="username" placeholder="Nombre de usuario" required />
-            <input type="password" name="password" placeholder="Contraseña" required />
+            <input type="password" name="password" placeholder="Contraseña" required 
+            pattern=".*[0-9].*[0-9].*[0-9].*[0-9].*" 
+            title="La contraseña debe incluir al menos 4 números (ej: pass1234)" />
             <button type="submit" class="btn">Registrarse</button>
         </form>
 
