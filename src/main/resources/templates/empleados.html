@@ -16,13 +16,19 @@
         <a th:href="@{/viajes}" th:text="#{nav.viajes}"></a>
         <a th:href="@{/reservas}" th:text="#{nav.reservas}"></a>
         <a th:href="@{/contacto}" th:text="#{nav.contacto}"></a>
+        <form th:action="@{/logout}" method="post" style="display: inline-block; margin-left: 15px;">
+            <button type="submit"
+                style="background-color: #dc3545; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                Cerrar Sesión
+            </button>
+        </form>
     </nav>
 
     <div class="container">
-        
+
         <div style="text-align: right; margin-bottom: 10px; font-size: 0.9rem;">
             <strong th:text="#{idioma.seleccionar} + ':'"></strong>
-            <a th:href="@{/empleados(lang='es')}" style="margin-left: 5px; font-weight: bold;">ES</a> | 
+            <a th:href="@{/empleados(lang='es')}" style="margin-left: 5px; font-weight: bold;">ES</a> |
             <a th:href="@{/empleados(lang='en')}" style="margin-left: 5px; font-weight: bold;">EN</a>
         </div>
 
@@ -49,9 +55,12 @@
         <div class="list-container">
             <div class="list-item" th:each="empleado : ${empleados}">
                 <span>
-                    <strong th:text="#{empleados.label.nombre} + ':'"></strong> <span th:text="${empleado.nombre}"></span> | 
-                    <strong th:text="#{empleados.label.correo} + ':'"></strong> <span th:text="${empleado.correo}"></span> | 
-                    <strong th:text="#{empleados.label.puesto} + ':'"></strong> <span th:text="${empleado.puesto}"></span>
+                    <strong th:text="#{empleados.label.nombre} + ':'"></strong> <span
+                        th:text="${empleado.nombre}"></span> |
+                    <strong th:text="#{empleados.label.correo} + ':'"></strong> <span
+                        th:text="${empleado.correo}"></span> |
+                    <strong th:text="#{empleados.label.puesto} + ':'"></strong> <span
+                        th:text="${empleado.puesto}"></span>
                 </span>
             </div>
             <div th:if="${#lists.isEmpty(empleados)}" class="list-item">
@@ -67,6 +76,7 @@
     </div>
 
 </body>
+
 </html>
 
 

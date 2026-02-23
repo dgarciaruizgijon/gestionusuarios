@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacto - Viajes Global Express</title>
     <link rel="stylesheet" th:href="@{/css/estilos.css}">
 </head>
+
 <body>
 
     <nav>
@@ -15,6 +17,12 @@
         <a th:href="@{/viajes}">Viajes</a>
         <a th:href="@{/reservas}">Reservas</a>
         <a th:href="@{/contacto}">Contacto</a>
+        <form th:action="@{/logout}" method="post" style="display: inline-block; margin-left: 15px;">
+            <button type="submit"
+                style="background-color: #dc3545; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                Cerrar Sesión
+            </button>
+        </form>
     </nav>
 
     <div class="container">
@@ -27,11 +35,11 @@
             <div class="list-item">
                 <span>📧 <strong>Email:</strong> ejercicio_inventado@iesruizgijon.com</span>
             </div>
-            
+
             <div class="list-item">
                 <span>📞 <strong>Teléfono:</strong> +34 661 80 77 57</span>
             </div>
-            
+
             <div class="list-item">
                 <span>📍 <strong>Dirección:</strong> Calle Violonchelo 6, Utrera</span>
             </div>
@@ -43,6 +51,7 @@
     </div>
 
 </body>
+
 </html>
 
 

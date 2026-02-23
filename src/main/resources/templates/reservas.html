@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title th:text="#{nav.reservas} + ' - Viajes Global Express'"></title>
     <link rel="stylesheet" th:href="@{/css/estilos.css}">
 </head>
+
 <body>
     <nav>
         <a th:href="@{/dashboard}" th:text="#{nav.inicio}"></a>
@@ -13,12 +15,18 @@
         <a th:href="@{/viajes}" th:text="#{nav.viajes}"></a>
         <a th:href="@{/reservas}" th:text="#{nav.reservas}"></a>
         <a th:href="@{/contacto}" th:text="#{nav.contacto}"></a>
+        <form th:action="@{/logout}" method="post" style="display: inline-block; margin-left: 15px;">
+            <button type="submit"
+                style="background-color: #dc3545; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                Cerrar Sesión
+            </button>
+        </form>
     </nav>
 
     <div class="container">
         <div style="text-align: right; margin-bottom: 10px; font-size: 0.9rem;">
             <strong th:text="#{idioma.seleccionar} + ':'"></strong>
-            <a th:href="@{/reservas(lang='es')}" style="margin-left: 5px; font-weight: bold;">ES</a> | 
+            <a th:href="@{/reservas(lang='es')}" style="margin-left: 5px; font-weight: bold;">ES</a> |
             <a th:href="@{/reservas(lang='en')}" style="margin-left: 5px; font-weight: bold;">EN</a>
         </div>
 
@@ -30,7 +38,8 @@
         <form th:action="@{/reservar}" method="post" class="form-inline">
             <select name="cliente" required>
                 <option value="" disabled selected th:text="#{reservas.seleccionar_cliente}"></option>
-                <option th:each="cliente : ${clientes}" th:value="${cliente.nombre}" th:text="${cliente.nombre}"></option>
+                <option th:each="cliente : ${clientes}" th:value="${cliente.nombre}" th:text="${cliente.nombre}">
+                </option>
             </select>
             <select name="destino" required>
                 <option value="" disabled selected th:text="#{reservas.seleccionar_destino}"></option>
@@ -41,18 +50,24 @@
 
         <h2 th:text="#{reservas.subtitulo.listado}"></h2>
         <div>
-            <div th:each="viaje : ${viajes}" th:if="${not #lists.isEmpty(viaje.clientes)}" style="margin-bottom: 2.5rem;">
-                <h3 th:text="#{reservas.viaje_a} + ' ' + ${viaje.destino} + ' (' + ${viaje.fecha} + ')'" 
-                    style="border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem; color: var(--text-main);"></h3>
-                
+            <div th:each="viaje : ${viajes}" th:if="${not #lists.isEmpty(viaje.clientes)}"
+                style="margin-bottom: 2.5rem;">
+                <h3 th:text="#{reservas.viaje_a} + ' ' + ${viaje.destino} + ' (' + ${viaje.fecha} + ')'"
+                    style="border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem; color: var(--text-main);">
+                </h3>
+
                 <div class="list-container">
-                    <div class="list-item" th:each="cliente : ${viaje.clientes}" style="display: flex; justify-content: space-between; align-items: center;">
-                        <span>🎫 <strong th:text="#{reservas.pasajero} + ':'"></strong> <span th:text="${cliente.nombre}"></span></span>
-                        
+                    <div class="list-item" th:each="cliente : ${viaje.clientes}"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>🎫 <strong th:text="#{reservas.pasajero} + ':'"></strong> <span
+                                th:text="${cliente.nombre}"></span></span>
+
                         <form th:action="@{/eliminarReserva}" method="post" style="margin: 0;">
                             <input type="hidden" name="cliente" th:value="${cliente.nombre}" />
                             <input type="hidden" name="destino" th:value="${viaje.destino}" />
-                            <button type="submit" class="btn btn-danger" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" th:text="'❌ ' + #{btn.cancelar}"></button>
+                            <button type="submit" class="btn btn-danger"
+                                style="padding: 0.4rem 0.8rem; font-size: 0.85rem;"
+                                th:text="'❌ ' + #{btn.cancelar}"></button>
                         </form>
                     </div>
                 </div>
@@ -60,6 +75,7 @@
         </div>
     </div>
 </body>
+
 </html>
 
 
