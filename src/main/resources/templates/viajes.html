@@ -41,7 +41,12 @@
             <input type="text" name="destino" th:placeholder="#{viajes.label.destino}" required />
             <input type="date" name="fecha" th:placeholder="#{viajes.label.fecha}" required />
             <input type="number" name="plazas" th:placeholder="#{viajes.label.plazas}" required />
-            <input type="text" name="guia" th:placeholder="#{viajes.label.guia}" required />
+            
+            <select name="guia" required style="padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+                <option value="" disabled selected th:text="#{viajes.label.guia}"></option>
+                <option th:each="empleado : ${empleados}" th:value="${empleado.nombre}" th:text="${empleado.nombre}"></option>
+            </select>
+            
             <button type="submit" class="btn" th:text="#{btn.agregar}"></button>
         </form>
 
@@ -52,12 +57,15 @@
         </form>
 
         <h2 th:text="#{viajes.subtitulo.listado}"></h2>
+        <h2 th:text="#{viajes.subtitulo.listado}"></h2>
         <div class="list-container">
             <div class="list-item" th:each="viaje : ${viajes}">
                 <span>
                     <strong th:text="#{viajes.label.destino} + ':'"></strong> <span th:text="${viaje.destino}"></span> |
                     <strong th:text="#{viajes.label.fecha} + ':'"></strong> <span th:text="${viaje.fecha}"></span> |
-                    <strong th:text="#{viajes.label.plazas} + ':'"></strong> <span th:text="${viaje.plazas}"></span>
+                    <strong th:text="#{viajes.label.plazas} + ':'"></strong> <span th:text="${viaje.plazas}"></span> |
+                    <strong th:text="#{viajes.label.guia} + ':'"></strong> 
+                    <span th:text="${viaje.guia != null ? viaje.guia.nombre : 'Sin guía'}"></span>
                 </span>
             </div>
             <div th:if="${#lists.isEmpty(viajes)}" class="list-item">

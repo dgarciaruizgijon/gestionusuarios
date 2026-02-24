@@ -264,38 +264,9 @@ public class UsuarioController {
         }
 
         model.addAttribute("viajes", viajeRepo.findAll());
+        model.addAttribute("empleados", empleadoRepo.findAll());
         return "viajes";
     }
-
-    // @PostMapping("/eliminarEmpleado")
-    // public String eliminarEmpleado(@RequestParam String nombre, Model model) {
-    //     Empleado e = empleadoRepo.findByNombreIgnoreCase(nombre);
-    //     if (e != null) {
-    //         empleadoRepo.delete(e);
-    //         model.addAttribute("mensaje", "Empleado eliminado correctamente.");
-    //     } else {
-    //         model.addAttribute("error", "Empleado no encontrado.");
-    //     }
-
-    //     model.addAttribute("empleados", empleadoRepo.findAll());
-    //     return "empleados";
-    // }
-
-    // /**
-    //  * Elimina un viaje del sistema basándose en su destino.
-    //  * * @param destino Nombre exacto del destino a eliminar.
-    //  * @return Redirección a la vista principal de viajes.
-    //  */
-    // @PostMapping("/eliminarViaje")
-    // public String eliminarViaje(@RequestParam String destino, Model model) {
-    //     Viaje v = viajeRepo.findByDestinoIgnoreCase(destino);
-    //     if (v != null)
-    //         viajeRepo.delete(v);
-
-    //     model.addAttribute("mensaje", "Viaje eliminado correctamente.");
-    //     model.addAttribute("viajes", viajeRepo.findAll());
-    //     return "viajes";
-    // }
 
     @PostMapping("/eliminarReserva")
     public String eliminarReserva(@RequestParam String cliente, @RequestParam String destino, Model model) {
