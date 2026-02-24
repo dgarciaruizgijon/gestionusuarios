@@ -27,18 +27,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
-        // 2. Buscamos al usuario en la tabla correcta
         Usuario usuario = usuarioRepo.findByUsername(username).orElse(null); 
         
         if (usuario == null) {
             throw new UsernameNotFoundException("Usuario no encontrado en la base de datos");
         }
 
-        // 3. Convertimos nuestro Usuario al formato que entiende Spring Security
         return new User(
             usuario.getUsername(),
             usuario.getPassword(),
-            // Le pasamos el rol que le guardamos en el registro (ej. "USER")
+
             Collections.singletonList(new SimpleGrantedAuthority(usuario.getRol())) 
         );
     }

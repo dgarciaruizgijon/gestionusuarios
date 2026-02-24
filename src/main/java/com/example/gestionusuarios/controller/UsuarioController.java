@@ -49,8 +49,6 @@ public class UsuarioController {
     @PostMapping("/registro")
     public String registrarUsuario(@RequestParam String username, @RequestParam String password, Model model) {
         
-        // --- NUEVA VALIDACIÓN DE CONTRASEÑA ---
-        // Contamos cuántos caracteres de la contraseña son números
         long cantidadNumeros = password.chars().filter(Character::isDigit).count();
         
         if (cantidadNumeros < 4) {
@@ -225,9 +223,16 @@ public class UsuarioController {
     @PostMapping("/eliminarEmpleado")
     public String eliminarEmpleado(@RequestParam String nombre, Model model) {
         Empleado e = empleadoRepo.findByNombreIgnoreCase(nombre);
+        
         if (e != null) {
-            empleadoRepo.delete(e);
-            model.addAttribute("mensaje", "Empleado eliminado correctamente.");
+            try {
+                // Intentamos borrar el empleado
+                empleadoRepo.delete(e);
+                model.addAttribute("mensaje", "Empleado eliminado correctamente.");
+            } catch (Exception ex) {
+                // Si la BD falla porque es guía de un viaje, salta aquí
+                model.addAttribute("error", "No se puede eliminar: este empleado está asignado como guía en uno o más viajes.");
+            }
         } else {
             model.addAttribute("error", "Empleado no encontrado.");
         }
@@ -244,13 +249,53 @@ public class UsuarioController {
     @PostMapping("/eliminarViaje")
     public String eliminarViaje(@RequestParam String destino, Model model) {
         Viaje v = viajeRepo.findByDestinoIgnoreCase(destino);
-        if (v != null)
-            viajeRepo.delete(v);
+        
+        if (v != null) {
+            try {
+                // Intentamos borrar el viaje
+                viajeRepo.delete(v);
+                model.addAttribute("mensaje", "Viaje eliminado correctamente.");
+            } catch (Exception ex) {
+                // Si la BD falla porque hay reservas apuntando a este viaje, salta aquí
+                model.addAttribute("error", "No se puede eliminar: hay reservas asociadas a este viaje.");
+            }
+        } else {
+            model.addAttribute("error", "Viaje no encontrado.");
+        }
 
-        model.addAttribute("mensaje", "Viaje eliminado correctamente.");
         model.addAttribute("viajes", viajeRepo.findAll());
         return "viajes";
     }
+
+    // @PostMapping("/eliminarEmpleado")
+    // public String eliminarEmpleado(@RequestParam String nombre, Model model) {
+    //     Empleado e = empleadoRepo.findByNombreIgnoreCase(nombre);
+    //     if (e != null) {
+    //         empleadoRepo.delete(e);
+    //         model.addAttribute("mensaje", "Empleado eliminado correctamente.");
+    //     } else {
+    //         model.addAttribute("error", "Empleado no encontrado.");
+    //     }
+
+    //     model.addAttribute("empleados", empleadoRepo.findAll());
+    //     return "empleados";
+    // }
+
+    // /**
+    //  * Elimina un viaje del sistema basándose en su destino.
+    //  * * @param destino Nombre exacto del destino a eliminar.
+    //  * @return Redirección a la vista principal de viajes.
+    //  */
+    // @PostMapping("/eliminarViaje")
+    // public String eliminarViaje(@RequestParam String destino, Model model) {
+    //     Viaje v = viajeRepo.findByDestinoIgnoreCase(destino);
+    //     if (v != null)
+    //         viajeRepo.delete(v);
+
+    //     model.addAttribute("mensaje", "Viaje eliminado correctamente.");
+    //     model.addAttribute("viajes", viajeRepo.findAll());
+    //     return "viajes";
+    // }
 
     @PostMapping("/eliminarReserva")
     public String eliminarReserva(@RequestParam String cliente, @RequestParam String destino, Model model) {
